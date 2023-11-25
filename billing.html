@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Robux</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+        color: #fff;
+        user-select: none;
+      }
+
+      .header {
+        background-color: #1a1a1a;
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      .plans {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 30px;
+      }
+
+      .plan {
+        border: 1px solid #555;
+        padding: 30px;
+        margin: 20px;
+        text-align: center;
+        width: 250px;
+        border-radius: 10px;
+        background-color: #444;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .plan:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .selected {
+        border-color: #4285f4;
+      }
+
+      h1 {
+        margin-top: 0;
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 20px;
+        margin: 10px 0;
+        color: #ccc;
+        transition: color 0.3s ease-in-out;
+      }
+
+      h3 {
+        font-size: 20px;
+        margin-bottom: 0;
+        color: #999;
+      }
+
+      .plan:hover h2 {
+        color: #fff;
+      }
+
+      h1,
+      h2,
+      h3 {
+        transition: color 0.3s ease-in-out;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 25px;
+      }
+
+      .button-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      button {
+        font-size: 20px;
+        background-color: #4285f4;
+        color: #fff;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+        margin-top: 0;
+      }
+
+      button:hover {
+        background-color: #3367d6;
+      }
+
+      @media screen and (max-width: 600px) {
+        .plan {
+          width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Robux Plans</h1>
+    </div>
+    <div class="plans">
+      <div class="plan" onclick="selectPlan(this)">
+        <h1>Basic 😢</h1>
+        <h2>
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/color/48/robux--v1.png"
+            alt="robux--v1"
+          />
+          400 Robux
+        </h2>
+        <h3>Only £3.50</h3>
+      </div>
+      <div class="plan" onclick="selectPlan(this)">
+        <h1>Premium 💎</h1>
+        <h2>
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/color/48/robux--v1.png"
+            alt="robux--v1"
+          />
+          800 Robux
+        </h2>
+        <h3>Only £9.50</h3>
+      </div>
+      <div class="plan" onclick="selectPlan(this)">
+        <h1>Super Boost 🚀</h1>
+        <h2>
+          <img
+            width="20"
+            height="20"
+            src="https://img.icons8.com/color/48/robux--v1.png"
+            alt="robux--v1"
+          />
+          1700 Robux
+        </h2>
+        <h3>Only £17</h3>
+      </div>
+    </div>
+    <center><button onclick="buySelectedPlan()">Buy Now!</button></center>
+    <br />
+    <footer>
+      <center>
+        Icons by <a href="https://icons8.com" style="color: red">Icons8</a
+        ><br />
+        This page is coded and designed by
+        <a
+          href="https://discord.com/users/838880188116369468"
+          style="color: red"
+          >lordpomind</a
+        >
+      </center>
+    </footer>
+
+    <script>
+      let selectedPlan = null;
+
+      function selectPlan(plan) {
+        if (selectedPlan) {
+          selectedPlan.classList.remove("selected");
+        }
+        plan.classList.add("selected");
+        selectedPlan = plan;
+      }
+    </script>
+
+    <script>
+      function buySelectedPlan() {
+        if (selectedPlan) {
+          // Get the plan type from the selected plan
+          let planType = selectedPlan
+            .querySelector("h2")
+            .textContent.match(/\d+/)[0];
+
+          let amount = selectedPlan
+            .querySelector("h3")
+            .textContent.match(/\d+/)[0];
+
+          // Redirect to the order page with the selected plan type as a query parameter
+          window.location.href =
+            "/order?type=" + planType + "&amount=" + amount;
+        } else {
+          alert("Please select a plan first.");
+        }
+      }
+    </script>
+  </body>
+</html>
