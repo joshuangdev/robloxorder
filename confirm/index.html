@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Order Confirmation</title>
+    <style>
+      /* Your CSS styles for confirmation page */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+      }
+      .details {
+        margin-top: 20px;
+      }
+      .detail {
+        margin-bottom: 10px;
+      }
+      .detail span {
+        font-weight: bold;
+      }
+      .all {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="all">
+      <div class="container">
+        <h1>Order Confirmation</h1>
+        <div class="details">
+          <div class="detail">
+            <span>Plan Type:</span>
+            <span id="planType"></span>
+          </div>
+          <div class="detail">
+            <span>Amount:</span>
+            <span id="amount"></span>
+          </div>
+          <div class="detail">
+            <span>Payment Method:</span>
+            <span id="paymentMethod"></span>
+          </div>
+          <div class="detail">
+            <span>Delivery Option:</span>
+            <span id="deliveryOption"></span>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        function getUrlParameter(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+          var results = regex.exec(location.search);
+          return results === null
+            ? ""
+            : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        window.onload = function () {
+          // Retrieve and display details from URL parameters
+          document.getElementById("planType").textContent =
+            getUrlParameter("planType");
+          document.getElementById("amount").textContent =
+            "£" + getUrlParameter("amount");
+          document.getElementById("paymentMethod").textContent =
+            getUrlParameter("paymentmethod");
+          document.getElementById("deliveryOption").textContent =
+            getUrlParameter("deliveryOption");
+
+          // Generating WhatsApp link after page loads
+          const currentURL = window.location.href;
+          const planType = getUrlParameter("planType");
+          const amount = getUrlParameter("amount");
+          const paymentMethod = getUrlParameter("paymentmethod");
+          const deliveryOption = getUrlParameter("deliveryOption");
+
+          const whatsappMessage = `My Summary Link: ${currentURL}\n\nPLAN TYPE: ${planType}\nAmount: £${amount}\nPayment Method: ${paymentMethod}\nDelivery Option: ${deliveryOption}`;
+
+          const whatsappLink =
+            "https://api.whatsapp.com/send?phone=447391674695&text=" +
+            encodeURIComponent(whatsappMessage);
+
+          // Create <a> tag and set its attributes
+          var link = document.createElement("a");
+          link.style["font-size"] = "30px";
+          link.style["font-weight"] = "bold";
+          link.style["textAlign"] = "center";
+          link.href = whatsappLink;
+          link.textContent = "CLICK HERE";
+          link.target = "_blank"; // Open in a new tab
+
+          // Append the created link to the body
+          document.getElementById("info").appendChild(link);
+        };
+      </script>
+      <div id="info" style="text-align: center">
+        <h1>
+          WHATSAPP CHANNEL:
+          <a href="https://whatsapp.com/channel/0029VaAQ8PIIiRotVsNQ0U3y"
+            >CLICK HERE!</a
+          >
+        </h1>
+        <h1>AFTER PLACING ORDER PLEASE CONTACT ME VIA WHATSAPP</h1>
+      </div>
+    </div>
+  </body>
+</html>

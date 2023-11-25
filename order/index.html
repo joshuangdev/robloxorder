@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Order Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+        color: #fff;
+        user-select: none;
+      }
+
+      .header {
+        background-color: #1a1a1a;
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      .order-details {
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 25px;
+        color: #ccc;
+      }
+
+      h3 {
+        font-size: 20px;
+        color: #999;
+      }
+      .payment-method,
+      .delivery-options {
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      select {
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+
+      .button-container {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Order Details</h1>
+    </div>
+    <div class="order-details">
+      <h1>Thank you for your purchase!</h1>
+      <h2>
+        Your selected plan:
+        <span id="selectedPlanType"></span>
+      </h2>
+    </div>
+    <div class="payment-method">
+      <h2>Select Payment Method: <span id="amount">£</span></h2>
+      <select id="paymentMethod">
+        <option value="Cash">Cash</option>
+        <option value="Card">Card</option>
+        <option value="PayPal">PayPal</option>
+        <option value="Gift Card">Gift Card</option>
+      </select>
+    </div>
+
+    <div class="delivery-options">
+      <h2>Select Delivery Option:</h2>
+      <input type="radio" id="deliveryOptionA" name="delivery" value="A" />
+      <label for="deliveryOptionA"
+        >I will provide account + password. (No sending fees)</label
+      ><br />
+      <input type="radio" id="deliveryOptionB" name="delivery" value="B" />
+      <label for="deliveryOptionB"
+        >I will not provide account + password. (Sending fees not
+        covered)</label
+      ><br />
+    </div>
+
+    <!-- Button to proceed with the order -->
+    <div class="button-container">
+      <center><button onclick="completeOrder()">Complete Order</button></center>
+    </div>
+
+    <center><span id="summary" style="font-size: 50px"></span></center>
+
+    <script>
+      // Function to get URL parameters
+      function getUrlParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+        return results === null
+          ? ""
+          : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+
+      // Get the plan type from the URL query parameter
+      var planType = getUrlParameter("type");
+      var selectedPlanTypeElement = document.getElementById("selectedPlanType");
+
+      if (planType) {
+        selectedPlanTypeElement.textContent = planType + " Robux";
+        document.getElementById("amount").textContent =
+          "£" + getUrlParameter("amount");
+      } else {
+        selectedPlanTypeElement.textContent = "No plan selected";
+      }
+
+      function completeOrder() {
+        var paymentMethod = document.getElementById("paymentMethod").value;
+        var deliveryOption = document.querySelector(
+          'input[name="delivery"]:checked'
+        );
+
+        if (deliveryOption && paymentMethod) {
+          var selectedPlanTypeElement =
+            document.getElementById("selectedPlanType");
+          var selectedPlanType = selectedPlanTypeElement.textContent.trim();
+
+          var confirmationMessage = "Thank you for your order!\n";
+          confirmationMessage += "Selected Plan: " + selectedPlanType + "\n";
+          confirmationMessage += "Payment Method: " + paymentMethod + "\n";
+          confirmationMessage +=
+            "Amount to be paid: £" + getUrlParameter("amount") + "\n";
+          confirmationMessage += "Delivery Option: " + deliveryOption.value;
+
+          document.getElementById("summary").textContent = confirmationMessage;
+
+          alert(confirmationMessage);
+          alert(
+            "PLEASE SCREENSHOT AND COPY THE DETAILS TO THE SELLER IN ORDER TO COMPLETE YOUR ORDER!"
+          );
+
+          var stuff =
+            "/confirm?amount=" +
+            getUrlParameter("amount") +
+            "&planType=" +
+            selectedPlanType +
+            "&paymentmethod=" +
+            paymentMethod +
+            "&deliveryOption=" +
+            deliveryOption.value;
+
+          // Redirect to the confirmation page with query parameters
+          window.location.href = stuff; // Fixed the missing '='
+        } else {
+          alert("Please select payment method and delivery option.");
+          window.location.href = "/billing"; // Redirect to billing page or handle appropriately
+        }
+      }
+    </script>
+  </body>
+</html>
